@@ -14,7 +14,8 @@ namespace DynClient.Plugins
 
         private List<String> GetPluginsFileInfo()
         {
-            String path = Path.Combine(Directory.GetCurrentDirectory(), pluginFolder);
+
+            String path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pluginFolder);
             if(Directory.Exists(path))
             {
                 return Directory.EnumerateFiles(path, "*.dll").ToList();

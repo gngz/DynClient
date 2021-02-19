@@ -20,8 +20,8 @@ namespace DynClient.Updater.Cloudflare
         public void Update(IPAddress address, IDictionary<string, object> config)
         {
             String apiKey = config.ContainsKey("api-key") ? config["api-key"].ToString() : default;
-            String zoneName = config.ContainsKey("api-key") ? config["api-key"].ToString() : default;
-            String domain = config.ContainsKey("api-key") ? config["api-key"].ToString() : default;
+            String zoneName = config.ContainsKey("zone") ? config["zone"].ToString() : default;
+            String domain = config.ContainsKey("domain") ? config["domain"].ToString() : default;
 
             ZoneModel zone = GetZone(apiKey, zoneName);
             RecordModel record = GetRecord(apiKey, zone, domain);
