@@ -1,32 +1,33 @@
 ﻿using DynClient.Plugins;
+using DynClient.Retriever;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DynClient
 {
+    using ConfigType = IDictionary<String, Object>;
     class Program
     {
+        
         static IDictionary<string,object> GetConfig(String path)
         {
-            var config = new Dictionary<String, Object>();
-
-
-
-            return config;
-
+            if(File.Exists(path))
+            {
+                String rawConfig = File.ReadAllText(path);
+                return JsonSerializer.Deserialize<Dictionary<String, object>>(rawConfig);
+            }
+            return default;
         }
-        static public void UpdateDns(IProviderPlugin plugin)
-        {
-            IAddressRetriever retriever = new HttpAddressRetriever();
-
-            DynClient.UpdateDns(retriever, plugin, null);
-
-        }
+        static private void UpdateDns(IProviderPlugin plugin, ConfigType config) => DynClient.UpdateDns(plugin, config);
 
         static public void Execute(FileInfo config, Boolean verbose)
         {
@@ -44,11 +45,42 @@ namespace DynClient
 
             if(config != null)
             {
+
+                if(!File.Exists(config.FullName)) {
+                    Console.WriteLine("The configuration file does not exist!");
+                    return;
+                }
+
                 var configOptions = GetConfig(config.FullName);
+
+                if(configOptions.ContainsKey("plugin"))
+                {
+                    string pluginName = configOptions["plugin"].ToString();
+                    
+                    var plugin = plugins
+                        .Where(plugin => plugin.Name.Equals(pluginName))
+                        .FirstOrDefault();
+
+                    if(plugin == null)
+                    {
+                        Console.WriteLine("The specified plugin was not loaded!");
+                        return;
+                    }
+
+                    UpdateDns(plugin, configOptions);
+                } else
+                {
+                    Console.WriteLine("The configuration file does not specify any plugin!");
+                }
+
+                
             }
 
             Console.WriteLine($"File: {config?.FullName}, Verbose: {verbose}");
 
+            
+
+        
 
         }
         static int Main(string[] args)
