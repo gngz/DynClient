@@ -1,16 +1,15 @@
 ﻿using DynClient.Plugins;
 using DynClient.Retriever;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
+
 
 namespace DynClient
 {
@@ -85,6 +84,9 @@ namespace DynClient
         }
         static int Main(string[] args)
         {
+
+            
+
             var configOption = new Option<FileInfo>("--config", "Config File Location");
             configOption.AddAlias("-c");
 
