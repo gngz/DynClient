@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using DynClient.Plugins;
+using DynClient.Logger;
 
 namespace DynClient.Updater.Cloudflare
 {
@@ -14,8 +15,11 @@ namespace DynClient.Updater.Cloudflare
     {
         const String ENDPOINT = "https://api.cloudflare.com/client/v4";
 
-        public string Name { get => "CloudFlare"; }
+
         public List<string> OptionRequirements { get; set; } = new List<string>();
+        public string Name { get => "CloudFlare"; }
+        public string Author { get => "DiogoPassos.pt";}
+        public IDynLogger Logger { get; set; }
 
         public void Update(IPAddress address, IDictionary<string, object> config)
         {
@@ -23,9 +27,16 @@ namespace DynClient.Updater.Cloudflare
             String zoneName = config.ContainsKey("zone") ? config["zone"].ToString() : default;
             String domain = config.ContainsKey("domain") ? config["domain"].ToString() : default;
 
-            ZoneModel zone = GetZone(apiKey, zoneName);
-            RecordModel record = GetRecord(apiKey, zone, domain);
-            UpdateRecord(apiKey, zone, record, address.ToString());
+            try
+            {
+                ZoneModel zone = GetZone(apiKey, zoneName);
+                RecordModel record = GetRecord(apiKey, zone, domain);
+                UpdateRecord(apiKey, zone, record, address.ToString());
+            }
+            catch (Exception e)
+            {
+                Logger.Log(IDynLogger.MessageType.Error, e.Message);
+            }
         }
 
         private ZoneModel GetZone(String apiKey, String zoneName)
@@ -43,12 +54,14 @@ namespace DynClient.Updater.Cloudflare
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-
             var uri = $"{ENDPOINT}/zones/{zone.Id}/dns_records?name={domain}";
-            var response = client.GetFromJsonAsync<ResultModel<RecordModel>>(uri).Result;
 
-            var rr = response.Result.FirstOrDefault();
-            return rr;
+     
+                var response = client.GetFromJsonAsync<ResultModel<RecordModel>>(uri).Result;
+
+                var rr = response.Result.FirstOrDefault();
+                return rr;
+  
         }
 
         private void UpdateRecord(String apiKey, ZoneModel zone, RecordModel record, String address)
@@ -66,9 +79,10 @@ namespace DynClient.Updater.Cloudflare
                 Proxied = false,
             }).Result;
 
-
-            Console.WriteLine(resp.ToString());
-
+            if(resp.IsSuccessStatusCode)
+            {
+                Logger.Log(IDynLogger.MessageType.Normal, "{0} updated with {1} ip!", record.Name, address);
+            } 
 
         }
     }
