@@ -1,4 +1,5 @@
 ﻿using DynClient.Plugins;
+using DynClient.Retriever;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace DynClient
 {
     class DynClient
     {
-       public static void UpdateDns(IAddressRetriever retriever, IProviderPlugin updateStrategy, IDictionary<String,Object> config)
+       public static void UpdateDns(IProviderPlugin updateStrategy, IDictionary<String,Object> config)
        {
             IPAddress ipAddress = default;
+
+           IAddressRetriever retriever = RetrieverFactory.GetRetriever(RetrieverType.Http);
 
             while(ipAddress == default)
             {
