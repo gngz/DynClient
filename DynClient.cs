@@ -1,4 +1,5 @@
-﻿using DynClient.Plugins;
+﻿using DynClient.Logger;
+using DynClient.Plugins;
 using DynClient.Retriever;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,9 @@ namespace DynClient
     {
        public static void UpdateDns(IProviderPlugin updateStrategy, IDictionary<String,Object> config)
        {
-            IPAddress ipAddress = default;
+           IPAddress ipAddress = default;
+
+           IDynLogger logger = new DynConsoleLogger();
 
            IAddressRetriever retriever = RetrieverFactory.GetRetriever(RetrieverType.Http);
 
@@ -21,7 +24,8 @@ namespace DynClient
             {
                 ipAddress = retriever.GetAddress();
             }
-            
+
+            updateStrategy.Logger = logger;
             updateStrategy.Update(ipAddress, config);
        }
     }
