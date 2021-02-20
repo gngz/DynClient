@@ -25,4 +25,4 @@ Example with the CloudFlare plugin:
     "domain" :"dns.example.com"
 }
 ```
-Plugins must be placed in the Providers (If it does not exist it must be created) folder in the same folder as the executable.
+Plugins must be placed in the Providers folder  (If it does not exist it must be created) in the same folder as the executable.
