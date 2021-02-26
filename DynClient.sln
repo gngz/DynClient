@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynClient", "DynClient.csproj", "{35CBC617-CF8D-42CE-83DF-FF76DEC39DA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynClient - CloudFlare", "DynClient - CloudFlare\DynClient - CloudFlare.csproj", "{2B94CC69-85DE-4440-9168-B9B3EA04C1B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynClient - CloudFlare", "DynClient - CloudFlare\DynClient - CloudFlare.csproj", "{2B94CC69-85DE-4440-9168-B9B3EA04C1B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynClient-GUI", "DynClient-GUI\DynClient-GUI.csproj", "{590A7962-B342-48E6-B7FF-7220907E757F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2B94CC69-85DE-4440-9168-B9B3EA04C1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B94CC69-85DE-4440-9168-B9B3EA04C1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B94CC69-85DE-4440-9168-B9B3EA04C1B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590A7962-B342-48E6-B7FF-7220907E757F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590A7962-B342-48E6-B7FF-7220907E757F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590A7962-B342-48E6-B7FF-7220907E757F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590A7962-B342-48E6-B7FF-7220907E757F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

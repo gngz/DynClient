@@ -9,14 +9,16 @@
 
   <ItemGroup>
     <Compile Remove="DynClient - CloudFlare\**" />
+    <Compile Remove="DynClient-GUI\**" />
     <EmbeddedResource Remove="DynClient - CloudFlare\**" />
+    <EmbeddedResource Remove="DynClient-GUI\**" />
     <None Remove="DynClient - CloudFlare\**" />
+    <None Remove="DynClient-GUI\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DnsClient" Version="1.4.0" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
-	
   </ItemGroup>
 
 </Project>
